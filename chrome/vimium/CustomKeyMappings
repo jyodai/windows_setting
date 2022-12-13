@@ -1,0 +1,10 @@
+# Insert your preferred key mappings here.
+
+map :q removeTab
+map :bd removeTab
+map <c-j> previousTab
+map <c-k> nextTab
+map :bl lastTab
+map :bf firstTab
+map :bn nextTab
+map :bp previousTab
