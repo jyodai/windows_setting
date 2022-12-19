@@ -14,10 +14,10 @@ sc07B & k::Send,{Up}
 sc07B & l::Send,{Right}
 
 ;Home
-sc07B & A::Send,{Home}
+sc07B & i::Send,{Home}
 
 ;End
-sc07B & I::Send,{End}
+sc07B & a::Send,{End}
 
 ;保存
 sc07B & w::Send,^s
