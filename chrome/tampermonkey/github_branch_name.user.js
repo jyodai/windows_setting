@@ -4,7 +4,7 @@
 // @version      0.1
 // @description  feature/issue-9999 の形式でブランチを作成可能にする
 // @author       You
-// @match        https://github.com/sitepublis-connect/rd-publis5-proto/issues/*
+// @match        https://github.com/*/issues/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=xsrv.jp
 // @grant        none
 // ==/UserScript==
