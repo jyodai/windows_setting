@@ -52,6 +52,7 @@
         const summaries = frame.getElementsByTagName("summary");
 
         const a = summaries[0].getElementsByTagName("a");
-        return a[0].title;
+
+        return a[0].innerHTML;
     }
 })();
