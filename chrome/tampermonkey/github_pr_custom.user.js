@@ -10,9 +10,17 @@
 // ==/UserScript==
 
 (function() {
-    main()
+    main();
+
+    document.addEventListener("keydown", function(event) {
+        if (event.ctrlKey && event.key === "m") {
+            main();
+        }
+    });
 
     function main () {
+        removeElementsByClass('tampermonkey');
+
         const turboFrames = getTurboFrame();
         setMenu(turboFrames);
     }
@@ -34,7 +42,7 @@
 
         const element = document.createElement("button");
         element.textContent = "copy file path";
-        element.classList.add('btn-link');
+        element.classList.add('tampermonkey', 'btn-link');
 
         element.addEventListener('click', () => {
             navigator.clipboard.writeText(filePath);
@@ -54,5 +62,12 @@
         const a = summaries[0].getElementsByTagName("a");
 
         return a[0].innerHTML;
+    }
+
+    function removeElementsByClass(className) {
+        const elements = document.getElementsByClassName(className);
+        while (elements.length > 0) {
+            elements[0].parentNode.removeChild(elements[0]);
+        }
     }
 })();
