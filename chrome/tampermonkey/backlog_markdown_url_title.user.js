@@ -35,9 +35,10 @@
 
     function createMessage() {
         const url = location.href ;
-        const title =  document.getElementsByClassName('ticket__parent-group')[0].innerText;
+        const number = document.getElementsByClassName('ticket__key-number')[0].innerText;
+        const title =  document.getElementsByClassName('title-group__title-text')[0].innerText;
 
-        const message = `[${title}](${url})`;
+        const message = `[${number} ${title}](${url})`;
         return message;
     }
 
