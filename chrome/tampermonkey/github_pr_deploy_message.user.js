@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         github_pr_deploy_message
 // @namespace    http://tampermonkey.net/
-// @version      1.0
+// @version      1.1
 // @description  Copy GitHub PR information to clipboard on click
 // @author       You
 // @match        https://github.com/*/*/pull/*
@@ -42,8 +42,7 @@
         const startFormat = formatDate(now);
         const endFormat = formatDate(endDate);
 
-        return `
-■対象サイト
+        return `■対象サイト
 ${repoName}
 ■日時
 ${startFormat} ~ ${endFormat.slice(-5)}
