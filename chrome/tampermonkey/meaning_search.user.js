@@ -11,14 +11,23 @@
 (function() {
     'use strict';
 
+    const ignorePatterns = [
+        /https:\/\/www\.google\.com\/search.*/
+    ];
+
     document.addEventListener('keydown', function(e) {
         if (e.key === 's') {
             const selection = window.getSelection().toString();
             if (selection) {
-                const query = encodeURIComponent(selection);
-                const url = `https://www.google.com/search?q=${query}`;
-                window.open(url, '_blank');
+                const currentUrl = window.location.href;
+                const isIgnored = ignorePatterns.some(pattern => pattern.test(currentUrl));
+                if (!isIgnored) {
+                    const query = encodeURIComponent(selection);
+                    const url = `https://www.google.com/search?q=${query}`;
+                    window.open(url, '_blank'); 
+                }
             }
         }
     });
 })();
+
