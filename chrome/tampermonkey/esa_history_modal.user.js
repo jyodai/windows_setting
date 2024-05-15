@@ -77,9 +77,14 @@
     // 関数定義：履歴リストを更新する
     function updateHistoryList(query = "") {
         let history = filterHistory(query);
-        let historyHtml = history.map(item => `<li><a href="${item.url}">${item.title}</a></li>`).join('');
+        let historyHtml = history.map(item => {
+            // タイトルから "- xyz.esa.io" 形式のサフィックスを削除する
+            let cleanedTitle = item.title.replace(/ - .*\.esa\.io$/, '');
+            return `<li><a href="${item.url}">${cleanedTitle}</a></li>`;
+        }).join('');
         document.getElementById('esaHistoryList').innerHTML = historyHtml;
     }
+
 
     // 関数定義：クエリに基づいて履歴をフィルタリングする
     function filterHistory(query) {
