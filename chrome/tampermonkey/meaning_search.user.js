@@ -16,7 +16,7 @@
     ];
 
     document.addEventListener('keydown', function(e) {
-        if (e.key === 's') {
+        if (e.ctrlKey && e.key === 's') {
             const selection = window.getSelection().toString();
             if (selection) {
                 const currentUrl = window.location.href;
