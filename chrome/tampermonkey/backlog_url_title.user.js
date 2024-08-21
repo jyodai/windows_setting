@@ -44,7 +44,7 @@ ${url}`;
     }
 
     function setMessageButton(button) {
-        const target =  document.getElementById('root');
+        const target =  document.getElementById('project-header');
         target.prepend(button);
     }
 })();
