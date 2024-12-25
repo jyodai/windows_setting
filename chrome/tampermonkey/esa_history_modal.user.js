@@ -32,8 +32,8 @@
         // 新しい履歴を先頭に追加
         history.unshift({ title: title, url: url });
 
-        // 履歴が300件を超えた場合は末尾の履歴を削除
-        if (history.length > 300) {
+        // 履歴が1000件を超えた場合は末尾の履歴を削除
+        if (history.length > 1000) {
             history.pop();
         }
 
