@@ -77,10 +77,11 @@
     // 関数定義：履歴リストを更新する
     function updateHistoryList(query = "") {
         let history = filterHistory(query);
-        let historyHtml = history.map(item => {
+        let historyHtml = history.map((item, index) => {
             // タイトルから "- xyz.esa.io" 形式のサフィックスを削除する
             let cleanedTitle = item.title.replace(/ - .*\.esa\.io$/, '');
-            return `<li><a href="${item.url}">${cleanedTitle}</a></li>`;
+            // インデックスを1から始まる番号に変換してタイトルの前に追加する
+            return `<li><a href="${item.url}">${index + 1}: ${cleanedTitle}</a></li>`;
         }).join('');
         document.getElementById('esaHistoryList').innerHTML = historyHtml;
     }
