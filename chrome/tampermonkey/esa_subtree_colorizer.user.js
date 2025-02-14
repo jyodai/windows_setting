@@ -14,7 +14,7 @@
     'use strict';
 
     const targetCategoryName = localStorage.getItem('esa_subtree_colorizer') || 'hoge';
-    const highlightColor = '#333333';
+    const highlightColor = '#444444';
     const maxRetries = 5;
     let retryCount = 0;
 
