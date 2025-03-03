@@ -18,30 +18,39 @@
     });
 
     function main() {
-        const message = createMessage();
-        const messageButton = createMessageButton(message);
-        setMessageButton(messageButton);
+        const ticketNumber = getTicketNumber();
+
+        addButton("feature_branch", `feature/${ticketNumber}`, setMessageButton);
+        addButton("create_feature_branch", `git switch -c feature/${ticketNumber}`, setFeatureBranchButton);
     }
 
-    function createMessageButton(message) {
-         const element = document.createElement("button");
-        element.textContent = "feature_branch";
+    function getTicketNumber() {
+        return document.getElementsByClassName('ticket__key-number')[0].innerText;
+    }
 
-        element.addEventListener('click', () => {
+    function addButton(buttonText, message, appendToFunction) {
+        const button = createButton(buttonText, message);
+        appendToFunction(button);
+    }
+
+    function createButton(buttonText, message) {
+        const button = document.createElement("button");
+        button.textContent = buttonText;
+
+        button.addEventListener('click', () => {
             navigator.clipboard.writeText(message);
-        })
-        return element;
-    }
+        });
 
-    function createMessage() {
-        const url = location.href ;
-        const number = document.getElementsByClassName('ticket__key-number')[0].innerText;
-
-        return `feature/${number}`;
+        return button;
     }
 
     function setMessageButton(button) {
-        const target =  document.getElementById('project-header');
+        const target = document.getElementById('project-header');
+        target.prepend(button);
+    }
+
+    function setFeatureBranchButton(button) {
+        const target = document.getElementById('project-header');
         target.prepend(button);
     }
 })();
