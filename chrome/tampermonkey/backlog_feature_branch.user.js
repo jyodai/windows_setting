@@ -21,7 +21,10 @@
         const ticketNumber = getTicketNumber();
 
         addButton("feature_branch", `feature/${ticketNumber}`, setMessageButton);
-        addButton("create_feature_branch", `git switch -c feature/${ticketNumber}`, setFeatureBranchButton);
+        addButton("create_feature_branch",
+                  `git switch main && git pull origin main && git switch -c feature/${ticketNumber}`,
+                  setFeatureBranchButton
+                 );
     }
 
     function getTicketNumber() {
