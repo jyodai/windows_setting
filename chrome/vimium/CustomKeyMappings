@@ -8,3 +8,4 @@ map :bl lastTab
 map :bf firstTab
 map :bn nextTab
 map :bp previousTab
+map :bcr closeTabsOnRight
