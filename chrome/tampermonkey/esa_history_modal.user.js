@@ -14,23 +14,27 @@
         const path = window.location.pathname;
         // URLが/posts/を含む場合のみ動作
         if (!path.startsWith('/posts/')) return;
+        // 編集中のページは保持しない
+        if (path.endsWith('/edit')) return;
 
-        let title = document.querySelector('title').innerText;
-        // タイトルから "[WIP]" 文字列を削除する
-        title = title.replace(/\[WIP\]\s*/g, '');
+        console.log('履歴に保存します。');
 
-        // タイトルが "Edit post" で始まる場合は保存しない
-        if (title.startsWith('Edit post')) return;
+        const title = document.querySelector('.post-title__name')?.textContent.trim();
+
+        const breadcrumbsElements = document.querySelectorAll('.category-path__item .category-path__link');
+        const breadcrumbs = Array.from(breadcrumbsElements).map(link => link.textContent.trim()).join('/');
+
+        const historyName = `${breadcrumbs}/${title}`;
 
         let url = window.location.href;
         let history = localStorage.getItem('esaHistoryStorage');
         history = history ? JSON.parse(history) : [];
 
         // 同名のタイトルがある場合はその履歴を削除する
-        history = history.filter(item => item.title !== title);
+        history = history.filter(item => item.title !== historyName);
 
         // 新しい履歴を先頭に追加
-        history.unshift({ title: title, url: url });
+        history.unshift({ title: historyName, url: url });
 
         // 履歴が1000件を超えた場合は末尾の履歴を削除
         if (history.length > 1000) {
