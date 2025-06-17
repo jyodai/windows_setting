@@ -1,0 +1,105 @@
+// ==UserScript==
+// @name         github_issue_autofill_with_assign
+// @namespace    http://tampermonkey.net/
+// @version      2024-01-07
+// @description  Autofill GitHub issue title and body, and assign yourself automatically on new issue page (GitHub UI compatible).
+// @author       You
+// @match        https://github.com/*/*/issues/new*
+// @grant        none
+// ==/UserScript==
+
+(function () {
+    'use strict';
+
+    const logEnabled = false;
+
+    function log(...args) {
+        if (logEnabled) {
+            console.log('[Autofill Issue]', ...args);
+        }
+    }
+
+    function getParams() {
+        const params = new URLSearchParams(window.location.search);
+        return {
+            title: params.get('title'),
+            body: params.get('body'),
+        };
+    }
+
+    function setInputValue(input, value) {
+        if (!input || !value) return;
+        const setter = Object.getOwnPropertyDescriptor(input.__proto__, 'value')?.set;
+        setter?.call(input, value);
+        input.dispatchEvent(new Event('input', { bubbles: true }));
+        log('Set input value:', value);
+    }
+
+    function setTextareaValue(textarea, value) {
+        if (!textarea || !value) return;
+        const setter = Object.getOwnPropertyDescriptor(textarea.__proto__, 'value')?.set;
+        setter?.call(textarea, value);
+        textarea.dispatchEvent(new Event('input', { bubbles: true }));
+        log('Set textarea value:', value);
+    }
+
+    function clickAssignYourself() {
+        const assignButton = Array.from(document.querySelectorAll('button'))
+            .find(btn => btn.textContent?.trim().toLowerCase().includes('assign yourself'));
+
+        if (assignButton) {
+            assignButton.click();
+            log('Clicked "Assign yourself" button');
+        } else {
+            log('"Assign yourself" button not found');
+        }
+    }
+
+    function fillForm({ title, body }) {
+        const titleInput = document.querySelector('input[type="text"][aria-label="Add a title"]');
+        const bodyTextarea = document.querySelector('textarea[aria-label="Markdown value"]');
+
+        setInputValue(titleInput, title);
+        setTextareaValue(bodyTextarea, body);
+        clickAssignYourself();
+    }
+
+    function waitForElements(callback) {
+        const interval = setInterval(() => {
+            const titleReady = document.querySelector('input[type="text"][aria-label="Add a title"]');
+            const bodyReady = document.querySelector('textarea[aria-label="Markdown value"]');
+            const assignReady = Array.from(document.querySelectorAll('button'))
+                .some(btn => btn.textContent?.trim().toLowerCase().includes('assign yourself'));
+
+            if (titleReady && bodyReady && assignReady) {
+                clearInterval(interval);
+                callback();
+            }
+        }, 200);
+
+        setTimeout(() => clearInterval(interval), 10000);
+    }
+
+    function runWhenIdle(fn) {
+        if ('requestIdleCallback' in window) {
+            requestIdleCallback(fn);
+        } else {
+            setTimeout(fn, 300);
+        }
+    }
+
+    function main() {
+        const params = getParams();
+
+        if (!params.title && !params.body) {
+            log('No query parameters. Skipping autofill.');
+            return;
+        }
+
+        runWhenIdle(() => {
+            waitForElements(() => fillForm(params));
+        });
+    }
+
+    main();
+})();
